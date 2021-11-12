@@ -254,8 +254,12 @@ module.exports = {
         .catch(err => console.log('error sending db', err))
     },
     deleteCity: (req, res) => {
+        const {cityId} = req.params
         sequelize.query(`
-        
+        DELETE FROM city
+        WHERE city_id = ${cityId}
         `)
+        .then(dbRes => res.status(200).send(dbRes[0]))
+        .catch(err => console.log('error deleting db', err))
     }
 }
