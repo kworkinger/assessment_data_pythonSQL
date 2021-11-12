@@ -233,7 +233,7 @@ module.exports = {
     },
     getCountries: (req, res) => {
         sequelize.query(`
-            SELECT * FROM countries`
+            SELECT * FROM countries;`
         ).then(dbRes => res.status(200).send(dbRes[0]))
         .catch(err => console.log('error sending db', err))
     },
@@ -241,6 +241,21 @@ module.exports = {
         const {name, rating, countryId} = req.body
         sequelize.query(`
         INSERT INTO cities(name, rating, countryId)
-        VALUES ('${name}','${rating}', '${countryId}')`)
+        VALUES ('${name}','${rating}', '${countryId}');`)
+        .then(dbRes => res.status(200).send(dbRes[0]))
+        .catch(err => console.log('error sending db', err))
+    },
+    getCities: (req, res) => {
+        sequelize.query(`
+            SELECT * FROM cities AS cit
+            JOIN countries AS c ON cit.country_id = c.country_id
+            WHERE cit.country_id = ${countryId};`)
+        .then(dbRes => res.status(200).send(dbRes[0]))
+        .catch(err => console.log('error sending db', err))
+    },
+    deleteCity: (req, res) => {
+        sequelize.query(`
+        
+        `)
     }
 }
